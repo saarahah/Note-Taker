@@ -26,14 +26,14 @@ app.use(express.static("public"));
 
 app.get("/api/notes", (req, res) => { 
  fs.readFile('db/db.json', 'utf8', (err, data) =>{
-  var noteData = res.json(JSON.parse(data));
-  console.log(noteData);
+ res.json(data.toString);
+  console.log(data);
   })
   })
 
 
 app.get("/api/notes:id", (req, res) => { 
-  console.log("this is the response" + res);
+  // console.log("this is the response" + res);
 })
 
 
@@ -41,7 +41,6 @@ app.get("/api/notes:id", (req, res) => {
 
 app.post("/api/notes", (req,res) =>{
 //add id to title and text of reqbody
-
 const noteObj = req.body;
 //adds property called id with no 3
 //needs to be dynamic
@@ -51,12 +50,11 @@ const noteObj = req.body;
 //make sure never delete two or more
  noteObj.id = uuidv1();
  //have to write a file / DB .json
-
+noteObj.push(notes)
 
 
 
 //  console.log("this is notes data" + notesData);
-
 })
 
 
