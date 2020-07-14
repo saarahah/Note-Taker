@@ -1,6 +1,6 @@
 const express = require ("express");
-const uuidv1 = require("uuid/v1");
-
+const { v1: uuidv1 } = require('uuid');
+var path = require("path");
 //require fs read write
 const fs = require ("fs")
 
@@ -8,6 +8,7 @@ const fs = require ("fs")
 const app = express();
 
 const PORT = process.env.PORT || 3000;
+
 //middleware
 app.use(express.urlencoded({extended: true}));
 //JSON parse
@@ -17,19 +18,24 @@ app.use(express.json());
 //express doesnt know static address
 app.use(express.static("public"));
 
+// var notesData = fs.readFile('db/db.json', 'utf8', function (err, data) {
+//   if (err) throw err;
+//   // console.log(data.toString ('utf8'));
+// })
 
 
-//api routes
-app.get / 
+app.get("/api/notes", (req, res) => { 
+ fs.readFile('db/db.json', 'utf8', (err, data) =>{
+  var noteData = res.json(JSON.parse(data));
+  console.log(noteData);
+  })
+  })
 
-app.get("/api/notes:id", (req, res){
 
+app.get("/api/notes:id", (req, res) => { 
+  console.log("this is the response" + res);
 })
 
-
-
-//at bottom
-app.get *
 
 //post
 
@@ -46,15 +52,29 @@ const noteObj = req.body;
  noteObj.id = uuidv1();
  //have to write a file / DB .json
 
- console.log(noteObj);
+
+
+
+//  console.log("this is notes data" + notesData);
 
 })
 
 
-app.listen(PORT, () =>{
+app.listen (PORT, () => {
     console.log(`app listening on port: ${PORT}`)
 })
-
-app.delete("/api/notes:id", (req, res){
+//app.delete code
+app.delete("/api/notes:id", (req, res) => {
 
 })
+
+//HTML Routes
+  
+app.get("/notes", (req, res) => {
+  res.sendFile(path.join(__dirname, "/public/notes.html"));
+});
+
+// If no matching route is found default to home
+app.get("*", (req, res)=> {
+  res.sendFile(path.join(__dirname, "/public/index.html"));
+});
