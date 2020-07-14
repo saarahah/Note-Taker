@@ -6,26 +6,37 @@ const fs = require ("fs")
 //app all refer to express
 const app = express();
 const PORT = process.env.PORT || 3000;
-//middleware
+//app.use binds middleware to the application
+//extended is true so URL encoded data will be parsed with qs lib (parsing and stringifying lib with added sec)
 app.use(express.urlencoded({extended: true}));
-//JSON parse
+//middleware that parses JSON
 app.use(express.json());
 //middleware that lets you reach index or css
 //express doesnt know static address
 app.use(express.static("public"));
 
+//function tells what to do when a get req at a given route is called
 app.get("/api/notes", (req, res) => { 
+//sets a variable for an fs read file which uses parse method to parse JSON string and construct object
 var global_data = JSON.parse(fs.readFileSync("db/db.json"));
+//sends a JSON response composed of specified data
 res.json(global_data);
 })
 
-//post notes
+//routes HTTP POST req to speicified path using callback function
 app.post("/api/notes", (req,res) =>{
+//sets a variable for an fs read file which uses parse method to parse JSON string and construct object
 var global_data = JSON.parse(fs.readFileSync("db/db.json"));
+//sets a variable for JSON data in request
+//can send arbitrary length JSON to server
 const noteObj = req.body;
+//sets a unique ID
 noteObj.id = uuidv1();
+//pushes JSON post data into the main JSON file
 global_data.push(noteObj);
+//rewrites the file to include new data
 fs.writeFileSync("db/db.json", JSON.stringify(global_data));
+//sends JSON response of specified data
 res.json(global_data)
 
 })
