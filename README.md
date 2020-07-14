@@ -33,4 +33,14 @@ No contributors.
 
 ## Screenshots
 
-![image](screenshotindex1.PNG)
+![image](image/workingapp.gif)
+
+ ## Questions
+
+ If you have any questions email me at sarahlferguson07@gmail.com
+ <br/>
+ My Github account is https://github.com/saarahah
+  
+  
+  ---
+  © 2020
