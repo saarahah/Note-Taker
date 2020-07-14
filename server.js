@@ -37,18 +37,28 @@ res.json(global_data)
 //app.delete code
 app.delete("/api/notes/:id", (req, res) => {
 var id = JSON.stringify(req.params.id);
-console.log("this is the id " + id);
-const remainNotes = global_data.filter(function(id){
+// console.log("this is the id " + id);
+// console.log("this is global data id" + JSON.stringify(global_data[0].id))
+const remainNotes = [];
 
-return id !== req.params.id;
+for (i = 0; i < global_data.length; i ++){
+  if (JSON.stringify(global_data[i].id) != id){
+    console.log("not the same")
+    // console.log("global data id " + )
+    remainNotes.push(global_data[i]);
+  }
+}
+console.log("remain notes" + remainNotes)
+
+fs.writeFileSync("db/db.json", JSON.stringify(remainNotes));
+res.send(remainNotes);
 
 })
 // console.log(deletedNotes)
 
-fs.writeFileSync("db/db.json", JSON.stringify(remainNotes));
-res.json(remainNotes);
 
-})
+
+// })
 
 //HTML Routes
   
