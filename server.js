@@ -20,11 +20,11 @@ var global_data = JSON.parse(fs.readFileSync("db/db.json"));
 ///////////////////////////////
 
 app.get("/api/notes", (req, res) => { 
- res.json(global_data);
-   console.log(global_data);
-  })
-//post
+res.json(global_data);
+console.log(global_data);
+})
 
+//post notes
 app.post("/api/notes", (req,res) =>{
 const noteObj = req.body;
 noteObj.id = uuidv1();
@@ -35,8 +35,15 @@ res.json(global_data)
 })
 
 //app.delete code
-app.delete("/api/notes:id", (req, res) => {
+app.delete("/api/notes/:id", (req, res) => {
+var id = req.params.id;
+const deletedNotes = global_data.filter(function(id){
+  console.log(req.params);
+return id !== req.params.id;
 
+})
+
+fs.writeFileSync("db/db.json", JSON.stringify(deletedNotes));
 })
 
 //HTML Routes
