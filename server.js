@@ -14,18 +14,20 @@ app.use(express.json());
 //express doesnt know static address
 app.use(express.static("public"));
 
-var global_data = JSON.parse(fs.readFileSync("db/db.json"));
+// var global_data = JSON.parse(fs.readFileSync("db/db.json"));
 // console.log ("This is the global data" + global_data);
 
 ///////////////////////////////
 
 app.get("/api/notes", (req, res) => { 
+  var global_data = JSON.parse(fs.readFileSync("db/db.json"));
 res.json(global_data);
 // console.log(global_data);
 })
 
 //post notes
 app.post("/api/notes", (req,res) =>{
+  var global_data = JSON.parse(fs.readFileSync("db/db.json"));
 const noteObj = req.body;
 noteObj.id = uuidv1();
 global_data.push(noteObj);
@@ -36,6 +38,7 @@ res.json(global_data)
 
 //app.delete code
 app.delete("/api/notes/:id", (req, res) => {
+var global_data = JSON.parse(fs.readFileSync("db/db.json"));
 var id = JSON.stringify(req.params.id);
 // console.log("this is the id " + id);
 // console.log("this is global data id" + JSON.stringify(global_data[0].id))
