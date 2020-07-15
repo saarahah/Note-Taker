@@ -42,20 +42,27 @@ res.json(global_data)
 })
 
 //app.delete code
+//use placeholder in route for id
 app.delete("/api/notes/:id", (req, res) => {
+//sets a variable for an fs read file which uses parse method to parse JSON string and construct object
 var global_data = JSON.parse(fs.readFileSync("db/db.json"));
+//make a variable for each ID and stringify the result
 var id = JSON.stringify(req.params.id);
+//make an array to push remaining notes into
 const remainNotes = [];
-
+//loop over data array
 for (i = 0; i < global_data.length; i ++){
+//if the id at the index position does not equal the id then
   if (JSON.stringify(global_data[i].id) != id){
     console.log("not the same")
+//push all the ones not deleted into remaining notes array
     remainNotes.push(global_data[i]);
   }
 }
 console.log("remain notes" + remainNotes)
-
+//overwrite file with only remaining notes
 fs.writeFileSync("db/db.json", JSON.stringify(remainNotes));
+//send string back
 res.send(remainNotes);
 
 })
